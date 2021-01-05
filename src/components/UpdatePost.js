@@ -5,7 +5,7 @@ class UpdatePost extends Component {
   state = {
     title: this.props.post.title,
     body: this.props.post.body,
-    image: this.props.post.image,
+    // image: this.props.post.image,
   }
 
   handleChange = e => {
@@ -29,7 +29,7 @@ class UpdatePost extends Component {
     return (
       <Container>
         <Form onSubmit={this.validate} className="mt-5">
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="formBasicPostTitle">
             <Form.Label>Post Title</Form.Label>
             <Form.Control
               name="title"
@@ -40,7 +40,7 @@ class UpdatePost extends Component {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="formBasicPostBody">
             <Form.Label>Post Body</Form.Label>
             <Form.Control
               name="body"
@@ -51,7 +51,7 @@ class UpdatePost extends Component {
               required
             />
           </Form.Group>
-          <Form.Group controlId="formBasicEmail">
+          {/* <Form.Group controlId="formBasicPostImage">
             <Form.Label>Post Image</Form.Label>
             <Form.Control
               name="image"
@@ -63,7 +63,7 @@ class UpdatePost extends Component {
             <Form.Text className="text-muted">
               Example: https://images.com/abcd.png
             </Form.Text>
-          </Form.Group>
+          </Form.Group> */}
           <Button variant="primary" type="submit">
             Submit
           </Button>

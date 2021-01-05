@@ -17,12 +17,12 @@ class App extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      fetch("https://aqueous-chamber-95142.herokuapp.com/posts")
+      fetch("https://jsonplaceholder.typicode.com/posts")
         .then(res => res.json())
         .then(data => {
           console.log("data:", data)
           this.setState({
-            posts: data.posts,
+            posts: data,
             numberPages: data.number_of_pages,
             currentPage: data.current_page,
           })
@@ -33,9 +33,7 @@ class App extends Component {
 
   handleChangePage = pageNumber => {
     console.log("pageNumber", pageNumber)
-    fetch(
-      "https://aqueous-chamber-95142.herokuapp.com/posts?page=" + pageNumber
-    )
+    fetch("https://jsonplaceholder.typicode.com/posts?page=" + pageNumber)
       .then(res => res.json())
       .then(data => {
         console.log("data:", data)
@@ -50,7 +48,7 @@ class App extends Component {
 
   handleUpdate = (updatedPost, postId, history) => {
     console.log("you will update this: ", updatedPost)
-    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
+    fetch("https://jsonplaceholder.typicode.com/posts/" + postId, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -73,7 +71,7 @@ class App extends Component {
               id: data.id,
               title: data.title,
               body: data.body,
-              image: data.image,
+              // image: data.image,
             }
             newPosts.push(newPost)
             return { posts: newPosts.sort((a, b) => b.id - a.id) }
@@ -87,7 +85,7 @@ class App extends Component {
 
   handleConfirmDelete = (postId, handleClose) => {
     console.log("deleting post:", postId)
-    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
+    fetch("https://jsonplaceholder.typicode.com/posts/" + postId, {
       method: "DELETE",
     }).then(res => {
       if (res.ok) {
