@@ -6,6 +6,7 @@ import Home from "./components/Home"
 import Post from "./components/Post"
 import Spinner from "./components/Spinner"
 import UpdatePost from "./components/UpdatePost"
+import PostsContext from "./utils/PostsContext"
 
 class App extends Component {
   state = {
@@ -16,9 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      fetch(
-        "https://aqueous-chamber-95142.herokuapp.com/users/adnen-amor/posts"
-      )
+      fetch("https://aqueous-chamber-95142.herokuapp.com/posts")
         .then(res => res.json())
         .then(data => {
           console.log("data:", data)
@@ -35,8 +34,7 @@ class App extends Component {
   handleChangePage = pageNumber => {
     console.log("pageNumber", pageNumber)
     fetch(
-      "https://aqueous-chamber-95142.herokuapp.com/users/adnen-amor/posts?page=" +
-        pageNumber
+      "https://aqueous-chamber-95142.herokuapp.com/posts?page=" + pageNumber
     )
       .then(res => res.json())
       .then(data => {
@@ -52,17 +50,13 @@ class App extends Component {
 
   handleUpdate = (updatedPost, postId, history) => {
     console.log("you will update this: ", updatedPost)
-    fetch(
-      "https://aqueous-chamber-95142.herokuapp.com/users/adnen-amor/posts/" +
-        postId,
-      {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(updatedPost),
-      }
-    )
+    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedPost),
+    })
       .then(res => {
         if (res.ok) {
           return res.json()
@@ -93,13 +87,9 @@ class App extends Component {
 
   handleConfirmDelete = (postId, handleClose) => {
     console.log("deleting post:", postId)
-    fetch(
-      "https://aqueous-chamber-95142.herokuapp.com/users/adnen-amor/posts/" +
-        postId,
-      {
-        method: "DELETE",
-      }
-    ).then(res => {
+    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
+      method: "DELETE",
+    }).then(res => {
       if (res.ok) {
         this.setState(
           prevState => {
@@ -126,16 +116,21 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route
             path="/posts-table"
-            render={props => (
-              <Posts
-                {...props}
-                posts={this.state.posts}
-                handleConfirmDelete={this.handleConfirmDelete}
-                handleChangePage={this.handleChangePage}
-                numberPages={this.state.numberPages}
-                currentPage={this.state.currentPage}
-              />
-            )}
+            render={props => {
+              const value = {
+                ...props,
+                posts: this.state.posts,
+                handleConfirmDelete: this.handleConfirmDelete,
+                handleChangePage: this.handleChangePage,
+                numberPages: this.state.numberPages,
+                currentPage: this.state.currentPage,
+              }
+              return (
+                <PostsContext.Provider value={value}>
+                  <Posts />
+                </PostsContext.Provider>
+              )
+            }}
           />
           <Route
             path="/posts/:id"

@@ -1,12 +1,15 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import { Modal, Button } from "react-bootstrap"
+import PostsContext from "../utils/PostsContext"
 
 class PostsTable extends Component {
   state = {
     show: false,
     toBeDeletedPostId: null,
   }
+
+  static contextType = PostsContext
 
   handleClose = () => {
     this.setState({ show: false, toBeDeletedPostId: null })
@@ -17,6 +20,7 @@ class PostsTable extends Component {
   }
 
   render() {
+    console.log("context", this.context)
     return (
       <>
         <table className="table table-hover">
@@ -28,7 +32,7 @@ class PostsTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.posts.map(post => (
+            {this.context.posts.map(post => (
               <tr key={post.id}>
                 <th>{post.id}</th>
                 <td>{post.title}</td>
@@ -72,7 +76,7 @@ class PostsTable extends Component {
             <Button
               variant="danger"
               onClick={() =>
-                this.props.handleConfirmDelete(
+                this.context.handleConfirmDelete(
                   this.state.toBeDeletedPostId,
                   this.handleClose
                 )

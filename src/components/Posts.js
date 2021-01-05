@@ -2,24 +2,20 @@ import React, { Component } from "react"
 import PostsTable from "./PostsTable"
 import Spinner from "./Spinner"
 import Pagination from "./Pagination"
+import PostsContext from "../utils/PostsContext"
 
 class Posts extends Component {
+  static contextType = PostsContext
+
   render() {
-    console.log("props of posts:", this.props)
+    console.log("context of posts:", this.context)
 
     let output = <Spinner />
-    if (this.props.posts) {
+    if (this.context.posts) {
       output = (
         <>
-          <PostsTable
-            handleConfirmDelete={this.props.handleConfirmDelete}
-            posts={this.props.posts}
-          />
-          <Pagination
-            changePage={this.props.handleChangePage}
-            currentPage={this.props.currentPage}
-            numberPages={this.props.numberPages}
-          />
+          <PostsTable />
+          <Pagination />
         </>
       )
     }
