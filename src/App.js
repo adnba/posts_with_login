@@ -7,6 +7,7 @@ import Post from "./components/Post"
 import Spinner from "./components/Spinner"
 import UpdatePost from "./components/UpdatePost"
 import PostsContext from "./utils/PostsContext"
+import Login from "./components/Login"
 
 class App extends Component {
   state = {
@@ -50,16 +51,20 @@ class App extends Component {
 
   handleUpdate = (updatedPost, postId, history) => {
     console.log("you will update this: ", updatedPost)
+    const token = localStorage.getItem("my_token")
     fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
+        authorization: token,
       },
       body: JSON.stringify(updatedPost),
     })
-      .then(res => {
+      .then(async res => {
         if (res.ok) {
           return res.json()
+        } else {
+          throw await res.json()
         }
       })
       .then(data => {
@@ -67,22 +72,29 @@ class App extends Component {
 
         this.setState(
           prevState => {
-            const newPosts = prevState.posts.filter(post => post.id !== data.id)
+            const newPosts = prevState.posts.filter(
+              post => post.post.id !== data.id
+            )
             console.log("new posts", newPosts)
             const newPost = {
-              id: data.id,
-              title: data.title,
-              body: data.body,
-              // image: data.image,
+              post: {
+                id: data.id,
+                title: data.title,
+                body: data.body,
+                image: data.image,
+              },
             }
             newPosts.push(newPost)
-            return { posts: newPosts.sort((a, b) => b.id - a.id) }
+            return {
+              posts: newPosts.sort((a, b) => b.post.id - a.post.id),
+            }
           },
           () => {
             history.push("/posts-table")
           }
         )
       })
+      .catch(ex => alert(ex.error))
   }
 
   handleConfirmDelete = (postId, handleClose) => {
@@ -171,8 +183,9 @@ class App extends Component {
               }
             }}
           />
-          {/* <Route path="/not-found" component={() => <h1>Not found!</h1>} />
-        <Redirect path="*" to="/not-found" /> */}
+          <Route exact path="/login" component={Login} />
+          <Route path="/not-found" component={() => <h1>Not found!</h1>} />
+          <Redirect path="*" to="/not-found" />
         </Switch>
       </>
     )
