@@ -3,9 +3,9 @@ import { Form, Button, Container } from "react-bootstrap"
 
 class UpdatePost extends Component {
   state = {
-    title: this.props.post.title,
-    body: this.props.post.body,
-    // image: this.props.post.image,
+    title: this.props.post.post.title,
+    body: this.props.post.post.body,
+    image: this.props.post.post.image,
   }
 
   handleChange = e => {
@@ -19,7 +19,7 @@ class UpdatePost extends Component {
     if (title.length > 2 && body.length > 2) {
       this.props.handleUpdate(
         this.state,
-        this.props.post.id,
+        this.props.post.post.id,
         this.props.history
       )
     }

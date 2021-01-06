@@ -10,10 +10,10 @@ class Post extends Component {
         <Row>
           <Col>
             <Card style={{ width: "18rem" }} className="mb-5 m-auto">
-              {/* <Card.Img variant="top" src={this.props.post.image} /> */}
+              <Card.Img variant="top" src={this.props.post.post.image} />
               <Card.Body>
-                <Card.Title>{this.props.post.title}</Card.Title>
-                <Card.Text>{this.props.post.body}</Card.Text>
+                <Card.Title>{this.props.post.post.title}</Card.Title>
+                <Card.Text>{this.props.post.post.body}</Card.Text>
                 <Link to="/posts-table" className="btn btn-secondary">
                   Go back to the Posts Table
                 </Link>

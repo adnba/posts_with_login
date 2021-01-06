@@ -17,12 +17,12 @@ class App extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      fetch("https://jsonplaceholder.typicode.com/posts")
+      fetch("https://aqueous-chamber-95142.herokuapp.com/posts")
         .then(res => res.json())
         .then(data => {
           console.log("data:", data)
           this.setState({
-            posts: data,
+            posts: data.posts,
             numberPages: data.number_of_pages,
             currentPage: data.current_page,
           })
@@ -33,7 +33,9 @@ class App extends Component {
 
   handleChangePage = pageNumber => {
     console.log("pageNumber", pageNumber)
-    fetch("https://jsonplaceholder.typicode.com/posts?page=" + pageNumber)
+    fetch(
+      "https://aqueous-chamber-95142.herokuapp.com/posts?page=" + pageNumber
+    )
       .then(res => res.json())
       .then(data => {
         console.log("data:", data)
@@ -48,7 +50,7 @@ class App extends Component {
 
   handleUpdate = (updatedPost, postId, history) => {
     console.log("you will update this: ", updatedPost)
-    fetch("https://jsonplaceholder.typicode.com/posts/" + postId, {
+    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -85,7 +87,7 @@ class App extends Component {
 
   handleConfirmDelete = (postId, handleClose) => {
     console.log("deleting post:", postId)
-    fetch("https://jsonplaceholder.typicode.com/posts/" + postId, {
+    fetch("https://aqueous-chamber-95142.herokuapp.com/posts/" + postId, {
       method: "DELETE",
     }).then(res => {
       if (res.ok) {
@@ -137,7 +139,9 @@ class App extends Component {
               if (this.state.posts) {
                 const { match } = props
                 const postId = match.params.id
-                const post = this.state.posts.find(post => post.id == postId)
+                const post = this.state.posts.find(
+                  post => post.post.id == postId
+                )
 
                 return <Post post={post} />
               } else {
@@ -151,7 +155,9 @@ class App extends Component {
               if (this.state.posts) {
                 const { match } = props
                 const postId = match.params.id
-                const post = this.state.posts.find(post => post.id == postId)
+                const post = this.state.posts.find(
+                  post => post.post.id == postId
+                )
 
                 return (
                   <UpdatePost

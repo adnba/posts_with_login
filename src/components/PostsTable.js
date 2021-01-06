@@ -33,13 +33,13 @@ class PostsTable extends Component {
           </thead>
           <tbody>
             {this.context.posts.map(post => (
-              <tr key={post.id}>
-                <th>{post.id}</th>
-                <td>{post.title}</td>
+              <tr key={post.post.id}>
+                <th>{post.post.id}</th>
+                <td>{post.post.title}</td>
                 <td>
                   <Link
                     className="btn btn-primary mr-2"
-                    to={"/posts/" + post.id}
+                    to={"/posts/" + post.post.id}
                   >
                     View
                   </Link>
@@ -47,14 +47,14 @@ class PostsTable extends Component {
                 <td>
                   <Link
                     className="btn btn-success  mr-2"
-                    to={"/posts/" + post.id + "/update"}
+                    to={"/posts/" + post.post.id + "/update"}
                   >
                     Update
                   </Link>
                 </td>
                 <td>
                   <button
-                    onClick={() => this.handleDelete(post.id)}
+                    onClick={() => this.handleDelete(post.post.id)}
                     className="btn btn-danger  mr-2"
                   >
                     Delete
