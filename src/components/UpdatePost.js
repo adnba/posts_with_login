@@ -51,7 +51,7 @@ class UpdatePost extends Component {
               required
             />
           </Form.Group>
-          {/* <Form.Group controlId="formBasicPostImage">
+          <Form.Group controlId="formBasicPostImage">
             <Form.Label>Post Image</Form.Label>
             <Form.Control
               name="image"
@@ -63,7 +63,7 @@ class UpdatePost extends Component {
             <Form.Text className="text-muted">
               Example: https://images.com/abcd.png
             </Form.Text>
-          </Form.Group> */}
+          </Form.Group>
           <Button variant="primary" type="submit">
             Submit
           </Button>
